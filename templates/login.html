@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+<h1> Caption Translator login</h1>
+
+{% block body %}
+            <section class="min-vh-100 d-flex bg-primary align-items-center">
+            <div class="container">
+
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8 col-lg-6 justify-content-center">
+                        <div class="card bg-primary shadow-soft border-light p-4">
+                            <div class="card-header text-center pb-0">
+                                <h2 class="mb-0 h5">Login</h2>
+                            </div>
+                            <div class="card-body">
+                                <form action={% url 'login' %} method="post">
+                                     {% csrf_token %}
+                                    <!-- Form -->
+                                    <div class="form-group">
+                                        <label for="exampleInputIcon4">User Name</label>
+                                        <div class="input-group mb-4">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><span class="fas fa-user"></span></span>
+                                            </div>
+                                            <input name="username" class="form-control" id="exampleInputIcon4" placeholder="User Name" type="text" aria-label="email adress">
+                                        </div>
+                                    </div>
+                                    <!-- End of Form -->
+                                    <div class="form-group">
+                                        <!-- Form -->
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword7">Password</label>
+                                            <div class="input-group mb-4">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><span class="fas fa-unlock-alt"></span></span>
+                                                </div>
+                                                <input name="password" class="form-control" id="exampleInputPassword7" placeholder="Password" type="password" aria-label="Password" required>
+                                            </div>
+                                        </div>
+                                        <!-- End of Form -->
+
+                                    </div>
+                                    <button type="submit" class="btn btn-block btn-primary">Login</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}

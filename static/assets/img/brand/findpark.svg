@@ -1,0 +1,13 @@
+<svg width="142" height="94" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="96" width="144" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path stroke="null" id="svg_1" fill="#31344B" d="m76.02,3.04z"/>
+  <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="111" id="svg_3" y="87.5" x="-2.5" stroke-opacity="null" stroke-width="0" stroke="null" fill="#0a6363">F</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="111" id="svg_4" y="86.5" x="65.54471" stroke-opacity="null" stroke-width="0" stroke="null" fill="#0a6363">P</text>
+ </g>
+</svg>

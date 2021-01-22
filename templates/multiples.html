@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+<!-- Home for auth users -->
+
+{% block body %}
+    {% include "authnav.html" %}
+
+    <!-- Message from django will be printed here -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-secondary alert-dismissible shadow-inset fade show" role="alert">
+                    <span class="alert-inner--icon">
+                        <span class="fas fa-exclamation-circle">
+
+                    </span>
+                    </span>
+                <span class="alert-inner--text"><strong>Warning!</strong> {{ message }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Section -->
+    <section class="section section-md">
+        <div class="container">
+            <div class="alert alert-info shadow-soft" role="alert">
+                <span class="alert-inner--icon icon-lg"><span
+                        class="fa fa-language"></span></span>
+                <span class="alert-heading">Source</span>
+                <textarea class="form-control" placeholder="Source Text" name="multipleSourceTextarea"
+                          id="multipleSourceTextarea" rows="8" cols="10" style="background-color: white;" ></textarea>
+                <hr>
+                <p class="mb-0">
+                <div class="custom-file" style="display: block;">
+                    <input type="file" class="custom-file-input" id="destinationCustomFile"
+                           aria-label="File upload" onchange="openSourceFile(this)">
+                    <label class="custom-file-label" for="destinationCustomFile">
+                        <span class="fa fa-upload"></span>
+                    </label>
+                </div>
+                <br/>
+
+                <button id="saveDestCsv" class="btn btn-primary animate-down-2" type="button" onclick="download(this)">
+                                <span class="btn-inner-icon">
+                                    <span class="far fa-save"></span>
+                                    <span class="btn-inner-text font-weight-bold">Save</span>
+                                </span>
+                </button>
+                </p>
+            </div>
+            <!--End of Source -->
+
+            <!--Start of destination -->
+            <div id="dests">
+                <div class="alert alert-info shadow-soft" role="alert">
+                <span class="alert-inner--icon icon-lg"><span
+                        class="fa fa-language"></span></span>
+                    <span class="alert-heading">Target</span>
+                    <textarea class="form-control destText" placeholder="Target Text" rows="8"
+                              cols="10" style="background-color: white;" ></textarea>
+                    <hr>
+                    <p class="mb-0">
+                    <div class="custom-file" style="display: block;">
+                        <input type="file" class="custom-file-input"
+                               aria-label="File upload" onchange="openSourceFile(this)">
+                        <label class="custom-file-label">
+                            <span class="fa fa-upload"></span>
+                        </label>
+                    </div>
+                    <br/>
+
+                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"  style="background-color: white;"
+                            onchange="destLangChange(this)">
+                        <option value="null" selected="selected">Choose Target Language..</option>
+                        <option value="en">English</option>
+                        <option value="ge">German</option>
+                        <option value="fr">French</option>
+                        <option value="it">Italian</option>
+                        <option value="es">Spanish</option>
+                        <option value="po">Portuguese</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ru">Russian</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+
+                    </select>
+
+                    <button class="btn btn-primary animate-down-2 saveDestCsv" type="button" onclick="download(this)">
+                                <span class="btn-inner-icon">
+                                    <span class="far fa-save"></span>
+                                    <span class="btn-inner-text font-weight-bold">Save</span>
+                                </span>
+                    </button>
+
+                    <button class="btn btn-primary animate-down-2 addDest" type="button" onclick="addLanguage()">
+                                <span class="btn-inner-icon">
+                                    <span class="fa fa-plus"></span>
+                                    <span class="btn-inner-text font-weight-bold">Add Language</span>
+                                </span>
+                    </button>
+
+                    <button class="btn btn-primary animate-down-2 removeDest" type="button"
+                            onclick="removeLanguage(this)">
+                                <span class="btn-inner-icon">
+                                    <span class="fa fa-minus"></span>
+                                    <span class="btn-inner-text font-weight-bold">Remove Language</span>
+                                </span>
+                    </button>
+
+                    <button id="translateBtn" class="btn btn-primary animate-down-2" type="button"
+                            onclick="tnslt(this)">
+                                <span class="btn-inner-icon">
+                                    <span class="fa fa-redo"></span>
+                                </span>
+                        <span class="btn-inner-text font-weight-bold">Translate</span>
+                    </button>
+
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    <script src="{% static 'assets/js/text-translate-multiples.js' %}"></script>
+{% endblock %}

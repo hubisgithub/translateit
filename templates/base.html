@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        {% block title %}
+            Caption Translator
+        {% endblock %}
+    </title>
+
+    {% block styles %}
+
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="theme-color" content="#ffffff">
+        <!-- Fontawesome -->
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'vendor/@fortawesome/fontawesome-free/css/all.min.css' %}">
+
+        <!-- Pixel CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/neumorphism.css' %}">
+        <style type="text/css">
+
+            textarea {
+                white-space: nowrap;
+                overflow: scroll;
+            }
+
+            .sourcetext {
+                width: 100%;
+            }
+
+            #source_table .sourcetd {
+                padding: 2px;
+            }
+
+
+            .targettext {
+                width: 100%;
+            }
+
+            #target_table .targettd {
+                padding: 2px;
+            }
+
+            #detectedLangSpan {
+                color: red;
+            }
+
+
+        </style>
+
+    {% endblock %}
+
+    {% block scripts %}
+        <!-- Core -->
+        <script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'vendor/popper.js/dist/umd/popper.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'vendor/headroom.js/dist/headroom.min.js' %}"></script>
+
+        <!-- Vendor JS -->
+        <script src="{% static 'vendor/onscreen/dist/on-screen.umd.min.js' %}"></script>
+        <script src="{% static 'vendor/nouislider/distribute/nouislider.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+        <script src="{% static 'vendor/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+        <script src="{% static 'vendor/jarallax/dist/jarallax.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery.counterup/jquery.counterup.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery-countdown/dist/jquery.countdown.min.js' %}"></script>
+        <script src="{% static 'vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+        <script src="{% static 'vendor/prismjs/prism.js' %}"></script>
+
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+        <!-- Neumorphism JS -->
+        <script src="{% static 'assets/js/neumorphism.js' %}"></script>
+    {% endblock %}
+</head>
+<body>
+<main>
+    {% block body %}
+    {% endblock %}
+</main>
+</body>
+</html>
+

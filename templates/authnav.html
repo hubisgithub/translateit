@@ -1,0 +1,68 @@
+{% load static %}
+<!-- Nav bar for auth users -->
+<header class="header-global">
+    <nav id="navbar-main" aria-label="Primary navigation"
+         class="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light">
+        <div class="container position-relative">
+            <a class="navbar-brand shadow-soft py-2 px-3 rounded border border-light mr-lg-4" href="{% url 'index' %}">
+                <em>Caption Translator</em>
+            </a>
+            <div class="navbar-collapse collapse" id="navbar_global">
+                <div class="navbar-collapse-header">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+                            <a href="{% url 'index' %}"
+                               class="navbar-brand shadow-soft py-2 px-3 rounded border border-light">
+                                <em>Caption Translator</em>
+
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <a href="#navbar_global" class="fas fa-times" data-toggle="collapse"
+                               data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false"
+                               title="close" aria-label="Toggle navigation"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link" data-toggle="dropdown">
+                            <span class="nav-link-inner-text">Translation</span>
+                            <span class="fas fa-angle-down nav-link-arrow ml-2"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li><a class="dropdown-item" href="{% url 'index' %}">Text</a></li>
+                            <li><a class="dropdown-item" href="{% url 'multiples' %}">Multiple Languages</a></li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item" href="{% url 'line_translate' %}">Line Translate</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex align-items-end">
+                <div class="btn-group mr-3 mb-3">
+                    <button type="button" class="btn btn-primary">Welcome {{ user.get_username }}</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+                            class="fas fa-angle-down dropdown-arrow"></span> <span
+                            class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" x-placement="top-start"
+                         style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(91px, -13px, 0px);">
+                        <a class="dropdown-item" href="{% url 'index' %}">Home</a>
+                        <a class="dropdown-item" href="{ url 'keys' }">Keys</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{ url 'changepass' }">Password</a>
+                        {% if request.user.is_authenticated %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
