@@ -52,13 +52,11 @@
                     <div class="dropdown-menu" x-placement="top-start"
                          style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(91px, -13px, 0px);">
                         <a class="dropdown-item" href="{% url 'index' %}">Home</a>
-                        <a class="dropdown-item" href="{ url 'keys' }">Keys</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{ url 'changepass' }">Password</a>
-                        {% if request.user.is_authenticated %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                        {% endif %}
+
+                    <a class="dropdown-item" href="{% url 'index' %}">Text</a>
+                    <a class="dropdown-item" href="{% url 'multiples' %}">Multiple Languages</a>
+                    <a class="dropdown-item" href="{% url 'line_translate' %}">Line Translate</a>
+
                     </div>
 
                 </div>
