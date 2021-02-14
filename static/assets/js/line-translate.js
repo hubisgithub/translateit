@@ -24,7 +24,12 @@ var sep = ',';
 
 
 function get_sep(lang_code) {
-    return seps[lang_code];
+    if (document.getElementById('wordByWord').checked === true) {
+        return seps[lang_code];
+    } else {
+        return ",";
+    }
+
 }
 
 function get_text_to_translate(includeAt, table_name) {
@@ -32,13 +37,47 @@ function get_text_to_translate(includeAt, table_name) {
     if (includeAt === true) {
         sep = "@,"
     }
+    no_of_cols = document.querySelectorAll("#source_table tr")[0].childElementCount;
     var tBody = document.getElementById(table_name).children[0];
     var textToWrite = create_first_line();
     for (var i = 0; i < tBody.childElementCount; i++) {
         var tr = tBody.children[i];
         for (var col = 0; col < no_of_cols; col++) {
             if (col === 0) {
-                textToWrite += tr.children[col].firstChild.innerText + sep;
+                textToWrite += (i+1) + tr.children[col].firstChild.innerText + sep;
+            } else {
+                if (col === no_of_cols - 1) {
+                    textToWrite += tBody.children[i].children[col].firstChild.value;
+                } else {
+                    textToWrite += tBody.children[i].children[col].firstChild.value + sep;
+                }
+
+            }
+
+        }
+        textToWrite += "\n";
+
+    }
+    return textToWrite;
+}
+
+
+
+
+function get_text_to_translate_submission(includeAt, table_name) {
+    var sep = ","
+    if (includeAt === true) {
+        sep = "@,"
+    }
+    no_of_cols = document.querySelectorAll("#source_table tr")[0].childElementCount;
+    var tBody = document.getElementById(table_name).children[0];
+    //var textToWrite = create_first_line();
+    var textToWrite = '';
+    for (var i = 0; i < tBody.childElementCount; i++) {
+        var tr = tBody.children[i];
+        for (var col = 0; col < no_of_cols; col++) {
+            if (col === 0) {
+                //textToWrite += (i+1) + tr.children[col].firstChild.innerText + sep;
             } else {
                 if (col === no_of_cols - 1) {
                     textToWrite += tBody.children[i].children[col].firstChild.value;
@@ -48,6 +87,7 @@ function get_text_to_translate(includeAt, table_name) {
 
             }
         }
+
         textToWrite += "\n";
     }
     return textToWrite;
@@ -140,6 +180,7 @@ function createNewRow(no_of_cols, line, tBody, language, new_dir, td_class, text
             if (text === '' || text === ' ') {
                 text = tBody.childElementCount + 1;
             }
+
             input.value = text;
             //td.style.textAlign = "center";
 
@@ -157,6 +198,65 @@ function createNewRow(no_of_cols, line, tBody, language, new_dir, td_class, text
 }
 
 
+function createNewRowWithNos(no_of_cols, line, tBody, language, new_dir, td_class, text_class, spltr) {
+    if (td_class === null || td_class === undefined) td_class = 'sourcetd';
+    if (text_class === null || text_class === undefined) text_class = 'sourcetext';
+    var tr = document.createElement("tr");
+    var splitter = spltr;
+
+    for (var col = 0; col < no_of_cols; col++) {
+
+
+        var text = line.split(splitter)[col];
+        if (text === undefined) text = '';
+        if (col === 0) {
+            var td = document.createElement("td");
+            td.setAttribute("scope", "row");
+            td.setAttribute("class", td_class);
+
+            var input = document.createElement("input");
+            input.style.width = '30px';
+            input.setAttribute("dir", new_dir);
+            input.setAttribute("type", "text");
+
+            input.value = tBody.childElementCount + 1;
+            td.style.textAlign = "center";
+            td.appendChild(input);
+            tr.appendChild(td);
+
+             var td2 = document.createElement("td");
+            td2.setAttribute("scope", "row");
+            td2.setAttribute("class", td_class);
+
+            var input2 = document.createElement("input");
+            input2.setAttribute("type", "text");
+            input2.setAttribute("class", text_class);
+            input2.setAttribute("dir", new_dir);
+            input2.value = text;
+
+            td2.appendChild(input2);
+            tr.appendChild(td2);
+
+        } else {
+
+            var td = document.createElement("td");
+            td.setAttribute("scope", "row");
+            td.setAttribute("class", td_class);
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "text");
+            input.setAttribute("class", text_class);
+            input.setAttribute("dir", new_dir);
+            input.value = text;
+
+            td.appendChild(input);
+            tr.appendChild(td);
+        }
+
+    }
+    return tr;
+}
+
 function addRowToSource(e) {
     var tBody = document.getElementById("source_table").children[0];
     var line = '';
@@ -167,9 +267,9 @@ function create_first_line() {
     var first_line = "title_no,"
     for (var i = 1; i < no_of_cols; i++) {
         if (i === no_of_cols - 1) {
-            first_line += "line_" + i;
+            first_line += "line_" + pad(i);
         } else {
-            first_line += "line_" + i + ","
+            first_line += "line_" + pad(i) + ","
         }
 
     }
@@ -183,7 +283,9 @@ function downloadSource(e) {
         return;
     } else {
         var lang_code;
+        var tb_name = '';
         if (e.id === "saveSourceCsv") {
+            tb_name = "source_table";
             lang_code = open_file_name.substr(open_file_name.lastIndexOf("_") + 1, 2);
             save_file_name = open_file_name.replace(open_file_name.substr(open_file_name.lastIndexOf("_"), 3), "_" + lang_code)
         } else {
@@ -192,11 +294,13 @@ function downloadSource(e) {
                 lang_code = open_target_file_name.substr(open_target_file_name.lastIndexOf("_") + 1, 2);
                 save_file_name = open_target_file_name.replace(open_target_file_name.substr(open_target_file_name.lastIndexOf("_"), 3), "_" + lang_code)
             } else {
+                tb_name = "target_table";
+                no_of_cols = no_of_cols + 1;
                 save_file_name = open_file_name.replace(open_file_name.substr(open_file_name.lastIndexOf("_"), 3), "_" + inlineFormCustomSelectPref.value)
 
             }
         }
-        var textToWrite = get_text_to_translate(false, "target_table");
+        var textToWrite = get_text_to_translate(false, tb_name);
         var textFileAsBlob = new Blob([textToWrite], {type: 'text/plain;charset=utf-8;'});
         var downloadLink = document.createElement("a");
         downloadLink.download = save_file_name;
@@ -230,7 +334,7 @@ function tnslt(e) {
             } else {
                 includeAt = true;
             }
-            translate(source_lang, target_lang, get_text_to_translate(includeAt, "source_table"));
+            translate(source_lang, target_lang, get_text_to_translate_submission(false, "source_table"));
         } else {
             alert("Source Language is not detected, please open a file in source to detect source language")
         }
@@ -269,8 +373,8 @@ function translate(from, to, content) {
         var lines = text.split('\n');
         var splitter = get_sep(target_lang);
         no_of_cols = lines[0].split(splitter).length;
-        for (var line = 1; line < lines.length; line++) {
-            target_table_body.appendChild(createNewRow(no_of_cols, lines[line], target_table_body, target_lang, target_direction, "targettd", "targettext", splitter));
+        for (var line = 0; line < lines.length; line++) {
+            target_table_body.appendChild(createNewRowWithNos(no_of_cols, lines[line], target_table_body, target_lang, target_direction, "targettd", "targettext", splitter, true));
 
         }
 
@@ -303,6 +407,10 @@ function translate(from, to, content) {
     }
 }
 
+
+function pad(d) {
+    return (d < 10) ? '0' + d.toString() : d.toString();
+}
 function destLangChange(e) {
     var node = document.getElementById('inlineFormCustomSelectPref');
     if (node.value === "ar") {
