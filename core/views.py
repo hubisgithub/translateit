@@ -51,12 +51,25 @@ def translate_batch(request):
         if data["dest_lang"] == 'ge': data["dest_lang"] = "de"
 
         try:
-            result = GoogleTranslator(source=data["source_lang"], target=data["dest_lang"]).translate(data["content"])
+            #result = GoogleTranslator(source=data["source_lang"], target=data["dest_lang"]).translate_batch(batch=data["content"].replace('\n', ',').split(',')[:-1])
+            #result = GoogleTranslator(source=data["source_lang"], target=data["dest_lang"]).translate_batch(batch=data["content"].split(','))
+            result = batch(source_lang=data["source_lang"], dest_lang=data["dest_lang"], batch=data["content"].split(','))
         except Exception as e:
             result = e.message
-        return JsonResponse(data={"result": result.replace("@", '')}, safe=False)
+        return JsonResponse(data={"result": result}, safe=False)
 
 
+
+def batch(source_lang, dest_lang, batch=None):
+    if not batch:
+        raise Exception("Enter your text list that you want to translate")
+
+    res = ''
+    for text in batch:
+        translated = GoogleTranslator(source=source_lang, target=dest_lang).translate(text=text)
+        res += translated + ","
+        time.sleep(0.5)
+    return res[:-1]
 @csrf_exempt
 def translate_word(request):
     if request.method == 'POST':
